@@ -22,6 +22,16 @@ apt-get install vim
 vi /etc/mysql/my.cnf
 ````
 
+my.cnf 파일에 아래와 같이 적어준다.
+
+````
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8
+````
+
 설정 후 컨테이너 재시작.
 ````
 docker stop ticket
