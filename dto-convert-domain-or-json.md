@@ -1,4 +1,4 @@
-## DTO
+## DTO Convert Domain Or Domain Convert DTO
 
 1. 도메인 객체에서 프레젠테이션 레이어로 DTO를 통해 변환할 때,
 서비스 레이어에서 별도의 컨버터 메서드나 클래스를 두어서
