@@ -63,8 +63,8 @@ Value Object를 통해 도메인을 설계할 때, 단순히 값이나 날짜 �
 
 참조 자료
 
-[Java의 날짜와 시간 API](https://d2.naver.com/helloworld/645609)
-[Alias Bug Martin fowler](https://martinfowler.com/bliki/AliasingBug.html)
-[Value Object Martin fowler](https://martinfowler.com/bliki/ValueObject.html)
-[Domain-Driven Design의 적용-1.VALUE OBJECT와 REFERENCE OBJECT 1부](http://aeternum.egloos.com/1105776)
-[일급 컬렉션 (First Class Collection)의 소개와 써야할 이유](https://jojoldu.tistory.com/412)
+- [Java의 날짜와 시간 API](https://d2.naver.com/helloworld/645609)
+- [Alias Bug Martin fowler](https://martinfowler.com/bliki/AliasingBug.html)
+- [Value Object Martin fowler](https://martinfowler.com/bliki/ValueObject.html)
+- [Domain-Driven Design의 적용-1.VALUE OBJECT와 REFERENCE OBJECT 1부](http://aeternum.egloos.com/1105776)
+- [일급 컬렉션 (First Class Collection)의 소개와 써야할 이유](https://jojoldu.tistory.com/412)
