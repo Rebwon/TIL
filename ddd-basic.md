@@ -1,6 +1,7 @@
 ## DDD 구현 기초 정리
 
-출처 : https://www.slideshare.net/madvirus/ddd-final
+출처 : https://www.slideshare.net/madvirus/ddd-final  
+참조 : DDD Start!, 도메인 주도 설계 핵심
 
 ### 클래스 : 객체의 정의
 
