@@ -2,9 +2,9 @@
 
 1. JPA
    - 일대다 다대일의 양방향 관계 주의사항
-   - [AttributeConverter 사용시 주의사항](attributeconvert.md)
+   - [AttributeConverter 사용시 주의사항](jpa/attributeconvert.md)
 2. DDD
-   - [VO를 써야하는 이유?](vo.md)
+   - [VO를 써야하는 이유?](ddd/vo.md)
 3. Anti-Pattern
    - 소프트웨어 안티패턴은 무엇이 있을까?
 4. Design-Pattern
@@ -15,7 +15,7 @@
    - 서비스 레이어의 복잡도를 줄이기 위한 컴포넌트 단위의 개발
    - Facade 패턴이란?
 7. Testing
-   - [주관적인 테스트에 관한 고찰](testing.md)
+   - [주관적인 테스트에 관한 고찰](testing/testing.md)
 8. DB-Normalization
     - 객체 관계 매핑을 통해 알아보는 DB 정규화
 9. OOP
