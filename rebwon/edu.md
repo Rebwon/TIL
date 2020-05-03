@@ -8,30 +8,30 @@
 
 - 자바 기초 쌓는 순서
   - 기본적인 문법을 공부한다.
-    - 변수
-    - 연산자
-    - 조건문 반복문
+    - 변수 *
+    - 연산자 *
+    - 조건문 반복문 *
     - 배열
   - 객체지향 프로그래밍 학습
-    - 클래스, 인스턴스, 메서드
-    - static, void, public, private 등의 키워드
-    - 오버로딩, 오버라이딩
+    - 클래스, 인스턴스, 메서드 *
+    - static, void, public, private 등의 키워드 *
+    - 오버로딩, 오버라이딩 *
     - 생성자, super(), this()
-    - 상속
-    - 추상 클래스
-    - 다형성
-    - instanceof
-    - 인터페이스
+    - 상속 *
+    - 추상 클래스 *
+    - 다형성 *
+    - instanceof *
+    - 인터페이스 *
     - 내부 클래스
     - 익명 클래스
   
 - 자바 중급으로 가는 순서
-  - 예외 처리
+  - 예외 처리 *
   - 컬렉션 프레임워크 학습
   - java.lang 패키지 학습
-  - 자바 8 람다, 메서드 레퍼런스, 스트림 API 학습
+  - 자바 8 람다, 메서드 레퍼런스, 스트림 API 학습 *
   - 쓰레드, IO 학습
-  - 애노테이션 학습
+  - 애노테이션 학습 *
   - 네트워크 학습
   
 - 자바 고급
@@ -65,7 +65,7 @@
       - AOP는 너무 빡세..
     - Null Safety
   - 스프링 MVC
-    - 서블릿 기초와 리스너, 필터 학습
+    - 서블릿 기초와 리스너, 필터 학습 *
     - DispatcherServlet 동작 과정과 로딩되는 빈들을 숙지
     - WebMvcConfigurer
     - 핸들러 인터셉터
@@ -85,13 +85,13 @@
 ### JPA, JDBC 학습 순서
 
 - JDBC
-  - 자바 기본 JDBC를 학습(중복적인 코드에 빡이 친다.)
+  - 자바 기본 JDBC를 학습(중복적인 코드에 빡이 친다.) *
   - Spring Data JDBC!!
     - [benelog님 정리](https://github.com/benelog/spring-jdbc-tips)
 
 - JPA
   - 난이도는 내려갈수록 기하급수적으로 상승...
-  - 자바 ORM 표준 JPA 프로그래밍 서적 학습
+  - 자바 ORM 표준 JPA 프로그래밍 서적 학습 *
   - QueryDSL 학습
   - Spring Data JPA 학습
   - Hibernate 학습
