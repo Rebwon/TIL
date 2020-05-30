@@ -10,3 +10,4 @@ Windows 기준 단축키 정리
 - 프로젝트 디렉토리 UI 열기 : alt + 1
 - 문서 혹은 탭 이동 : ctrl + tab
 - 메서드 변수 시그니처 변경 : ctrl + f6
+- generic한 if와 specific한 if를 전환하기 위한 커맨드 : shift 2번 누르고 invert if condition
