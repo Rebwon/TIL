@@ -6,7 +6,7 @@
    - 답변: Maven 중앙 레포지토리에 존재하지 않는 모듈을 사용해야 할때, 내부용 로컬 레포지토리를 만들게 되면 많은 개발자들의 중복적인
    작업이 줄어들게 됩니다.
 3. gradle과 maven의 차이점은 무엇인가?
-4. O2O 서비스에서 백엔드 개발자의 역할은 무엇일까?
+   - gradle이 maven보다 좋은점: https://kwonnam.pe.kr/wiki/gradle/from_maven
 5. elastic-search 와 graph-QL에 대해 설명해보라.
 6. 동적 스키마 설계시 고민할 점은 무엇일까?
 7. 절차지향과 객체지향 개발의 차이점을 설명해보라.
@@ -37,6 +37,12 @@
    - Filter
      - ServletRequest 혹은 ServletResponse를 교체할 수 있다. 
 9. transaction isolation level의 종류 및 특징은 무엇인가?
+   - Isolation level
+     - READ UNCOMMITED
+     - READ COMMITED
+     - REPEATABLE READ
+     - SERIALIZABLE
+   - 특징: https://joont92.github.io/db/%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EA%B2%A9%EB%A6%AC-%EC%88%98%EC%A4%80-isolation-level/
 10. JTA란 무엇인가?
    - 답변: Java Transaction API로 각 플랫폼마다 상이한 트랜잭션 매니저들과 애플리케이션들이 상호작용할 수 있는 인터페이스를 정의한 것입니다.
 11. CDN과 AWS cloudfront의 차이점과 사용 이유를 설명해보라.
@@ -50,4 +56,11 @@
      - private 생성자로 인스턴스 생성을 제한해야 한다.
 13. MD5, AES256, SHA256의 차이점과 각 암호화 방식에 대해 설명해보라.
 14. CDC는 무엇이며 구현 방법은 무엇인가?
+    - CDC는 Change Data Capture 데이터베이스 내 데이터에 대한 변경을 식별해 필요한
+      후속처리(데이터 전송/공유 등)를 자동화하는 기술 또는 설계 기법이자 구조.
+    - 구현 기법과 방식: https://specialscene.tistory.com/34
+    - 자바 진영 JPA에서는 Spring Data Envers를 사용한다.
+    - JPA에서 @Version으로 버저닝하는 것도 이에 포함
+    - @LastModified 애노테이션을 붙여서 Time Stamp on rows 기법을 사용하는 것도 여기에 해당.
+    - Event, Trigger를 사용할 수도 있으나, 애플리케이션 개발의 부담과 복잡도를 증가시킬 수 있다.
 15. Fault-tolerant(무정지) 시스템으로 가기 위해 필요한 개발 방법에 대한 생각을 말해보라.
