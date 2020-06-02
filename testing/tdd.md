@@ -14,3 +14,5 @@ TDD 작성법
 10. Iterate를 사용하라
 11. Assign(어떤 변수에 값을 할당)을 하지 않는 방법이 좋은 방법
 12. 복잡한 케이스를 점진적으로 추가해라
+
+참조해야할 글 : https://github.com/msbaek/memo/blob/master/CC-E22-Test-Processes.md
