@@ -1,5 +1,7 @@
 ## Reference Object 활용
 
+참조: whiteship 블로그, naver d2 블로그
+
 Rechability(접근성)이라는 단어를 처음 보게 됐습니다. 어떤 객체에 접근할 수 있는 reference의 강도를 네 단계로 구분 해 두었습니다.
 
 Strong reference > Soft reference > Weak reference > Phantom reference
