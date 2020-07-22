@@ -43,6 +43,34 @@ CAS를 사용하면 CAS 서버에서 인증이 성공해서 사용자가 애플�
 - 보호 리소스에 접근하는 인증된 요청
 - 허가 받지 않은 리소스에 접근하는 인증된 요청
 
+핵심 구성 요소의 매칭
+
+- 접근 주체 -> Authentication(Principal 확장)
+- 인증 -> AuthenticationManager
+- 인가 -> Security Interceptor
+
+Authentication의 용도
+- 현재 접근 주체(Client)의 주체 정보를 담는 목적(Anonymous인지, User인지, Admin인지)
+- 인증 요청할 때, 요청 정보를 담는 목적
+
+SecurityContext의 용도
+- Authentication을 보관(ThreadLocal에 보관함.)
+
+내가 스프링 시큐리티를 막 공부했을 당시, Filter에 대한 개념이 부족했다.
+FilterChain으로 체이닝 연결이 된 스프링 시큐리티 필터는 총 12개인데, 각각의 필터를 다 알 필요는 없지만
+요구사항을 확장해야할 부분들의 필터의 동작 방식은 이해하는 것이 중요하고, 서블릿 필터 자체가 어떤식으로 동작하는지를 미리 알았다면 더 좋았을 것 같다.
+
+정리하자면, 스프링 시큐리티의 필터들은 12개이고, 각각의 필터가 유기적으로 협력(filterChain.doFilter(req, res))하며 ThreadLocal을 구현한 SecurityContext에서 인증 정보를 확인하고,
+그 다음 동작을 실행할 필터에게 전달하며 인증을 수행한다. 여기서 협력이란, 그 다음 필터를 호출하는 정도로 생각하자.
+
+인증 Flow
+- 사용자가 인증을 요청한다.
+- SecurityFilterChain에 요청이 걸린다.
+- 많은 Filter 중, UsernamePasswordAuthenticationFilter에 걸리게 되고, 이후에 AuthenticationManager를 사용해서 인증 정보를 생성하며
+생성된 인증 정보를 SecurityContext에 담는다. 그리고 그 다음 Filter를 호출하며, SuccessHandler를 통해 인증 후처리를 담당한다.
+- 만약, 인증에 실패할 경우 FailureHandler를 통해 인증 실패 후처리를 담당한다.
+- 여기서 인증 성공, 실패 후처리는 각각 SuccessHandler, FailureHandler를 Default로 쓸 수 있지만, 확장하여 쓰는 것이 바람직하다.
+
 ### 스프링 시큐리티 필터
 
 - WebAsyncManagerIntegrationFilter: 이 필터는 SecurityContext와 비동기 요청 처리를 위한 핵심 클래스인 스프링 웹의 WebAsyncManager 간의 통합을 제공한다.
