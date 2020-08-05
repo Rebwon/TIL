@@ -113,3 +113,33 @@ JDK가 운영체제별로 설치파일을 제공하는 이유는 java 언어 자
 답변: Servlet의 라이프사이클은 [ 생성자 -> init() -> service() -> doGet or doPost -> destroy() ]로 되어 있습니다.
 init() 다음 스레드를 생성하여 다양한 사용자들의 요청에 대응하고, 서비스는 사용자 요청이 get인지 post인지 판별해서 doGet or doPost로 보내게 됩니다.(default : get방식)
 Servlet은 초기화를 init()에서 수행하게 되고 doGet과 doPost는 JSP의 작업을 구현해주어서 'Hello world'를 출력합니다.
+
+### Servlet 라이프 사이클
+
+- WAS는 서블릿 요청을 받으면 해당 서블릿이 메모리에 있는지 확인한다.
+
+```java
+if(메모리에 없다면) {
+    - 해당 서블릿을 메모리에 올림
+    - init()을 실행
+}
+- service()를 실행
+```
+- was가 종료되거나, 웹 어플리케이션이 새롭게 갱신될 경우 destroy() 메소드가 실행된다.
+
+service(request, response) 메소드 (HttpServlet의 service 메소드는 템플릿 메소드 패턴으로 구현한다.)
+- 클라이언트의 요청이 GET일 경우에는 자신이 가지고 있는 doGet(request, response)메소드를 호출
+- 클라이언트의 요청이 Post일 경우에는 자신이 가지고 있는 doPost(request, response)를 호출
+
+### HttpServletRequest, HttpServletResponse
+
+웹 브라우저에 URL을 입력하고 enter를 입력하면, 웹 브라우저는 도메인과 포트 번호를 이용해서 서버에 접속한다.
+그리고 나서 path 정보, 클라이언트의 IP, 클라이언트의 다양한 정보를 포함한 요청 정보를 서버에 전송한다.
+
+클라이언트로부터 요청이 들어오면 WAS는 HttpServletRequest, HttpServletResponse를 생성한다. 그리고 요청할 때 가지고 들어온 다양한 정보들을
+HttpServletRequest에 담는다. 
+
+HttpServletRequest는 HTTP 프로토콜의 request 정보를 서블릿에게 전달할 목적으로 사용이 되어진다. 헤더 정보, 파라미터 정보, 쿠키, URL, URI 정보들을
+요청할 때 메소드로 담는다. 또한 Request Body에 stream을 읽어들이는 메소드도 가지고 있다.
+
+또한 HttpServletResponse를 생성해서 사용자에게 응답 코드와 메세지 등을 전송한다.
