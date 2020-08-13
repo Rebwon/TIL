@@ -140,3 +140,103 @@ fun sum(vararg nums: Int): Int {
     return result
 }
 ```
+
+매개변수의 기본 값
+```kotlin
+fun add(name: String, email: String = "msolo021015@gmail.com") {
+
+}
+
+add("rebwon")   // email 인자를 생략하고 호출
+```
+
+매개변수 이름과 함께 함수 호출하기
+```kotlin
+fun namedParam(x: Int = 100, y: Int = 200, z:Int) {
+    println(x + y + z)
+}
+
+namedParam(x = 200, z = 100)    // x,z의 이름과 함께 함수 호출(y는 기본값)
+```
+
+가변인자를 가진 함수
+```kotlin
+fun main(args: Array<String>) {
+    normalVarargs(1, 2, 3, 4) // 4개의 인자 구성
+    normalVarargs(4, 5, 6)    // 3개의 인자 구성
+}
+
+fun normalVarargs(vararg counts: Int) {
+    for (num in counts) {
+        println("$num")
+    }
+    print("\n")
+}
+```
+
+순수 함수(Side-Effect가 없는 함수)
+- 동일한 입력 인자에 대해서는 항상 같은 결과를 출력 혹은 반환
+- 값이 예측이 가능해 결정적이다.
+
+```kotlin
+// 순수 함수의 예
+fun sum(a: Int, b: Int) {
+    return a + b    // 동일한 인자인 a,b를 받아 항상 a+b를 출력
+}
+```
+순수 함수의 조건
+- 같은 인자에 대하여 항상 같은 값을 반환
+- 함수 외부의 어떤 상태도 바꾸지 않는다 ==> 외부의 값이나 외부의 상태에 영향을 받지 않고 주지 않는다.
+
+순수 함수가 아닌 경우
+```kotlin
+fun checkEmailToken() {
+    val token = User.getToken() // 외부의 User 객체 접근
+    val dbToken = DB.getToken() // 외부의 DB 접근
+    if(token.equals(dbToken)) process(something) // 외부에 접근한 변수의 값에 따라 달라짐
+}
+```
+
+순수 함수 사용 이유
+- 입력과 내용을 분리하고 모듈화 하므로 재사용성이 높아진다.
+  - 여러 함수들과 조합해도 부작용이 없다.
+- 특정 상태에 영향을 주지 않으므로 병행 작업 시 안전하다.
+- 함수의 값을 추적하고 예측할 수 있기 때문에 테스트, 디버깅이 유리하다
+
+함수형 프로그래밍에 적용 시
+- 함수 자체를 매개변수, 인자에 혹은 반환 값에 적용한다(고차함수)
+- 함수를 변수나 데이터 구조에 저장한다
+
+람다식의 이용
+- 람다식은 고차 함수에서 인자로 넘기거나 결과값으로 반환 등을 할 수 있다.
+
+일급 객체
+- 일급 객체는 함수의 인자로 전달 가능하다
+- 일급 객체는 함수의 반환값에 사용 가능하다
+- 일급 객체는 변수에 담을 수 있다
+- 코틀린에서 함수는 1급 객체로 다룬다 1급 함수라고도 한다.
+
+고차 함수
+```kotlin
+fun main() {
+    println(highFun({x, y -> x + y}, 10, 20)) // 람다식 함수를 인자로 넘김
+}
+
+fun highFun(sum: (Int, Int) -> Int, a: Int, b:Int): Int = sum(a,b)  // sum 매개변수는 함수
+```
+
+고차 함수를 사용해서 람다식을 표현할 때
+```kotlin
+fun highFun(a: Int, b: Int, sum: (Int, Int) -> Int): Int {
+    return sum(a, b)
+}
+
+fun main() {
+    val result = highFun(10, 20) {x, y
+        -> x + y
+    }
+    println(result)
+}
+```
+위와 같이 매개 변수 함수를 뒤로 옮기면 함수를 선언할 때 {}로 따로 빼낼 수 있고, 람다식이 복잡해질 경우
+더 가독성있게 코드 작성이 가능하다.
