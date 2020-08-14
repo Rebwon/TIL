@@ -240,3 +240,31 @@ fun main() {
 ```
 위와 같이 매개 변수 함수를 뒤로 옮기면 함수를 선언할 때 {}로 따로 빼낼 수 있고, 람다식이 복잡해질 경우
 더 가독성있게 코드 작성이 가능하다.
+
+람다 
+```kotlin
+fun main() {
+
+    var result: Int
+
+    // 일반 변수에 람다식 할당
+    val multi = {x: Int, y: Int -> x * y}
+    // 람다식이 할당된 변수는 함수처럼 사용 가능
+    result = multi(10, 20)
+    println(result)
+}
+```
+람다 표현식
+```kotlin
+// 반환 자료형이 있을 경우
+val multi: (Int, Int) -> Int = {x: Int, y: Int -> x * y} // 생략되지 않은 전체 표현
+val multi = {x: Int, y: Int -> x * y}  // 선언 자료형 생략
+val multi: (Int, Int) -> Int = {x, y -> x * y} // 람다식 매개변수 자료형의 생략
+
+// 반환 자료형이 없을 경우 
+val greet: ()->Unit = { println("Hello World!") }
+val square: (Int)->Int = { x -> x * x }
+```
+
+고차 함수(인자나 반환값으로 함수를 사용)
+
