@@ -267,4 +267,178 @@ val square: (Int)->Int = { x -> x * x }
 ```
 
 고차 함수(인자나 반환값으로 함수를 사용)
+- 기본형 변수로 할당된 값은 스택에 있고 다른 함수에 인자로 전달하는 경우에는 해당 값이 복사되어 전달.
+- 참조형 변수로 할당된 객체는 참조 주소가 스택에 있고 객체는 힙에 있음.
+- 참조형 객체는 함수에 전달할 때 참조된 주소가 복사되어 전달됨.
 
+값에 의한 호출
+```kotlin
+fun main() {
+    val result = callByValue(lambda()) // 람다식 함수를 호출
+    println(result)
+}
+
+fun callByValue(b: Boolean): Boolean { // 일반 변수 자료형으로 선언된 매개변수
+    println("callByValue function")
+    return b
+}
+
+val lambda: () -> Boolean = {  // 람다 표현식이 두 줄이다
+    println("lambda function")
+    true 		    // 마지막 표현식 문장의 결과가 반환
+}
+```
+
+이름에 의한 호출
+```kotlin
+fun main() {
+    val result = callByName(otherLambda) // 람다식 이름으로 호출
+    println(result)
+}
+
+fun callByName(b: () -> Boolean): Boolean { // 람다식 함수 자료형으로 선언된 매개변수
+    println("callByName function")
+    return b() // 인자로 받은 람다식을 리턴할 때 b()를 호출함으로써 람다식을 실행하여 람다식의 최종 결과 반환
+}
+
+val otherLambda: () -> Boolean = {
+    println("otherLambda function")
+    true
+}
+```
+
+다른 함수의 참조에 의한 호출
+```kotlin
+fun main() {
+    // 1. 인자와 반환값이 있는 함수
+    val res1 = funcParam(3, 2, ::sum)
+    println(res1)
+
+    // 2. 인자가 없는 함수
+    hello(::text) // 반환값이 없음
+
+    // 3. 일반 변수에 값처럼 할당
+    val likeLambda = ::sum
+    println(likeLambda(6,6))
+}
+
+fun sum(a: Int, b: Int) = a + b
+
+fun text(a: String, b: String) = "Hi! $a $b"
+
+fun funcParam(a: Int, b: Int, c: (Int, Int) -> Int): Int {
+    return c(a, b)
+}
+
+fun hello(body: (String, String) -> String): Unit {
+    println(body("Hello", "World"))
+}
+```
+
+람다식 함수의 매개변수
+- 매개변수가 없는 경우
+```kotlin
+fun main() {
+    // 매개변수 없는 람다식 함수
+    noParam({ "Hello Kotlin" })
+    noParam { "Hello World" }   // 위와 동일 결과 소괄호 생략 가능
+}
+
+fun noParam(out: () -> String) = println(out())
+```
+
+- 매개변수가 하나인 경우
+```kotlin
+fun main() {
+    oneParam({a -> "Hello World $a"}) 
+    oneParam {a -> "Hello World $a"} // 위와 동일 결과 소괄호 생략 가능
+    oneParam { "Hello World $it"}  // 매개변수가 한 개일 경우 it이라는 키워드로 변수 선언부 간략하게 할 수 있음
+}
+
+fun oneParam(out: (String) -> String) {
+    println(out("Params"))
+}
+```
+
+- 매개변수가 두개 이상인 경우
+```kotlin
+fun main() {
+    moreParam {a,b -> "Hello World $a $b"} // 매개변수명 생략 불가
+}
+
+fun moreParam(out: (String, String) -> String) {
+    println(out("Kim", "Kitty"))
+}
+```
+
+- 매개변수를 생략할 경우
+```kotlin
+fun main() {
+    moreParam { _, b -> "Hello World $b"} // 첫번째 문자열은 사용하지 않고 생략
+}
+
+fun moreParam(out: (String, String) -> String) {
+    println(out("Kim", "Kitty"))
+}
+```
+
+- 일반 매개변수와 람다식 매개변수를 같이 사용
+```kotlin
+fun main() {
+    withArgs("Arg1", "Arg2", {a,b -> "Hello World $a $b"})
+    // 마지막 인자가 람다식인 경우 소괄호 바깥으로 분리 가능
+    withArgs("Arg1", "Arg2") {a,b -> "Hello World $a $b"}
+}
+
+fun withArgs(a: String, b: String, out: (String, String) -> String) {
+    println(out(a,b))
+}
+```
+
+- 두 개의 람다식을 가진 함수의 사용
+```kotlin
+fun main() {
+    twoLambda({a,b -> "First $a $b"} ,{"Second $it"})
+    twoLambda({a,b -> "First $a $b"}) {"Second $it"} // 위와 동일
+}
+
+fun twoLambda(first: (String, String) -> String, second: (String) -> String) {
+    println(first("One", "Two"))
+    println(second("second"))
+}
+```
+
+익명함수(함수가 이름이 없는 것)
+```kotlin
+fun (x: Int, y: Int): Int = x + y // 함수 이름이 생략된 익명 함수
+
+val add: (Int, Int) -> Int = fun(x,y) = x + y // 익명 함수를 사용한 add 선언
+val result = add(10, 2) // add의 사용
+```
+
+익명함수와 람다식 비교
+```kotlin
+val add = fun(x: Int, y: Int) = x + y // 람다식과 매우 흡사
+val add2 = {x: Int, y: Int -> x + y} 
+```
+
+일반 익명 함수에서는 흐름 제어 키워드인 return, break, continue가 사용가능하지만,
+람다식에서는 사용하기 어렵다. (라벨 표기법과 같이 사용해야함)
+
+인라인 함수
+- 함수가 호출되는 곳에 코드 내용을 모두 복사
+- 함수의 분기 없이 처리 -> 성능 향상 
+- 인라인 함수의 내용은 짧게 작성해야 함.
+```kotlin
+fun main() {
+    // 인라인 함수 shortFunc의 코드 내용이 복사되어 들어감
+    shortFunc(3) { println("First call: $it") }
+    shortFunc(5) { println("Second call: $it") }
+}
+
+inline fun shortFunc(a: Int, out: (Int) -> Unit) {
+    println("Before calling out()")
+    out(a)
+    println("After calling out()")
+}
+```
