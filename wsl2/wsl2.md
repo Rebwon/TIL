@@ -87,3 +87,8 @@ memory=4GB
 swap=0
 localhostForwarding=true
 ```
+
+메모리 점유 이외에 WSL2를 사용하면서 캐시 메모리가 증가할 경우 아래의 명령어를 사용하자.
+```
+sudo sh -c "/usr/bin/echo 3 > /proc/sys/vm/drop_caches"
+```
