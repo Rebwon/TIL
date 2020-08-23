@@ -8,17 +8,19 @@ WSL2를 사용하기전 확인해야할 것들
 아래의 github으로 접속하여 단계별 구축을 진행
 - https://github.com/wslhub/wsl-firststep
 
-커맨드라인으로 WSL2 설치하기 [파트](https://github.com/wslhub/wsl-firststep/blob/master/firststep/install.md)
+### 커맨드라인으로 WSL2 설치하기 [파트](https://github.com/wslhub/wsl-firststep/blob/master/firststep/install.md)
 ```
 wsl --set-default-version 2
 ```
 위의 명령어를 실행할 경우 오류가 뜬다면, https://docs.microsoft.com/ko-kr/windows/wsl/wsl2-kernel 이 링크에서 커널 업데이트를 진행한다.
 
-Windows Terminal 설정하기 파트에서 zsh의 테마를 agnoster로 할 경우 폰트 깨지는 문제
+### Windows Terminal 설정하기 파트에서 zsh의 테마를 agnoster로 할 경우 폰트 깨지는 문제
+
 - powerline 폰트를 https://medium.com/@slmeng/how-to-install-powerline-fonts-in-windows-b2eedecace58 해당 링크를 참고하여 설정한다.
   - 나의 경우 https://github.com/powerline/fonts 여기서 그냥 powerline 폰트를 다운받아서 압축을 풀고 폰트를 Windows의 fonts 폴더 안에 넣고 VSCode로 Windows Terminal의 fonts 설정을 했다.
 
-OpenJDK 설치하기 [파트](https://github.com/wslhub/wsl-firststep/blob/master/devsetup/openjdk.md)
+### OpenJDK 설치하기 [파트](https://github.com/wslhub/wsl-firststep/blob/master/devsetup/openjdk.md)
+
 ```
 $ sudo apt -y install openjdk-11-jdk
 ```
@@ -30,13 +32,14 @@ export JAVA_HOME=/usr/lib/jvm/openjdk-9-jdk
 export PATH=$PATH:$JAVA_HOME/bin
 ```
 
-gradle 설정 [파트](https://github.com/wslhub/wsl-firststep/blob/master/devsetup/openjdk.md)
+### gradle 설정 [파트](https://github.com/wslhub/wsl-firststep/blob/master/devsetup/openjdk.md)
+
 - 위의 링크를 통해 gradle까지 깔았다면, source /etc/profile.d/gradle.sh 이 명령어를 ~/.zshrc에 맨 아랫 줄에 기입하고 이후 source ~/.zshrc를 실행한다.
 - source가 잘 처리되었다면 gradle -v로 확인한다.
 
 node.js 설정은 [공식문서](https://docs.microsoft.com/ko-kr/windows/nodejs/setup-on-wsl2)를 참고한다.
 
-## XServer를 사용하여 Linux GUI를 통한 IDE 개발 환경 구축
+### XServer를 사용하여 Linux GUI를 통한 IDE 개발 환경 구축
 
 XServer를 사용할 때, 한글 입력 셋팅은 다음 [링크](https://sigmafelix.wordpress.com/2020/08/17/wsl2%ec%97%90%ec%84%9c-%ed%95%9c%ea%b8%80-%ec%9e%85%eb%a0%a5-%ec%82%ac%ec%9a%a9%ed%95%98%ea%b8%b0/comment-page-1/#comment-84)를 참고한다.
 - 나의 경우 VcXsrv를 사용하여 xserver를 설치했다.
@@ -63,10 +66,12 @@ export DefaultIMModule=fcitx
 fcitx-autostart &>/dev/null
 ```
 
-XServer를 사용하여 깔끔하게 GUI 실행하기
+### XServer를 사용하여 깔끔하게 GUI 실행하기
+
 - [링크](https://medium.com/beyond-the-windows-korean-edition/wsl-2-x11-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%9D%84-%EB%8D%94-%EA%B9%94%EB%81%94%ED%95%98%EA%B2%8C-%EC%8B%A4%ED%96%89%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95-5a270835801c)를 참고하여 VcXsrv를 통한 GUI앱을 사용해보자.
 
-Intellij IDE를 설치할 경우
+### Intellij IDE를 설치할 경우
+
 - wsl2의 경우 jetbrains-toolbox를 설치하거나, /opt 디렉토리에 버전 별로 설치하는 것을 추천한다.
 - jetbrains-toolbox를 설치할 경우 wget이나 curl로 tar.gz파일로 toolbox를 받아오자.
   - 받아온 gz파일을 압축해제하고, jetbrains-toolbox 디렉토리로 이동하여 ./jetbrains-toolbox 명령어를 실행하자.
@@ -92,3 +97,18 @@ localhostForwarding=true
 ```
 sudo sh -c "/usr/bin/echo 3 > /proc/sys/vm/drop_caches"
 ```
+
+### VcXsrv의 흐릿한 그래픽 선명하게 하기
+
+해당 [링크](https://blog.nadekon.net/115)를 참고하였다.
+
+VcXsrv 설치 폴더로 들어가, vcxsrv.exe와 xlaunch.exe 두개 모두 속성 설정을 변경한다.
+
+파일 우클릭 -> 속성 -> 호환성 -> 고 DPI 설정 변경 -> 고 DPI 스케일링 덮어쓰기 -> 응용프로그램 설정
+
+위와 같이 설정 후 wsl2의 bashrc 혹은 zshrc를 수정한다.
+```
+export GDK_SCALE=화면배율
+```
+
+1920x1080 해상도인 나의 경우 배율을 2로 할 경우 Intellij IDE가 너무 크게 나왔기 때문에, 1 혹은 1.5로 설정할 것을 권장한다.
