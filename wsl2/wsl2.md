@@ -66,6 +66,8 @@ export DefaultIMModule=fcitx
 fcitx-autostart &>/dev/null
 ```
 
+추가로 zsh를 사용할 경우 위에서 언급한 작업을 마친 후에도 적용이 안된다면, 터미널 상에서 fcitx를 한번 입력해보기 바란다.
+
 ### XServer를 사용하여 깔끔하게 GUI 실행하기
 
 - [링크](https://medium.com/beyond-the-windows-korean-edition/wsl-2-x11-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%9D%84-%EB%8D%94-%EA%B9%94%EB%81%94%ED%95%98%EA%B2%8C-%EC%8B%A4%ED%96%89%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95-5a270835801c)를 참고하여 VcXsrv를 통한 GUI앱을 사용해보자.
