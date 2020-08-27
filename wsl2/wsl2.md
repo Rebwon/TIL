@@ -5,16 +5,17 @@ WSL2를 사용하기전 확인해야할 것들
 - Windows Version 2004
 - Windows 설정에 개발자 모드로 변경 및 리눅스 서브시스템과 Hyper-V를 사용하도록 설정
 
-아래의 github으로 접속하여 단계별 구축을 진행
-- https://github.com/wslhub/wsl-firststep
+글을 읽기 전에 알아야 할 사항.
+- 이 글은 WSL2를 설치 및 개발 환경을 셋팅하는데 있어서 막혔던 부분이나, 에러를 만난 부분에 대해서만 해결 방법을 기술하고 있기 때문에 설치 과정은 생략한다.
 
 ### 커맨드라인으로 WSL2 설치하기 [파트](https://github.com/wslhub/wsl-firststep/blob/master/firststep/install.md)
+
 ```
 wsl --set-default-version 2
 ```
-위의 명령어를 실행할 경우 오류가 뜬다면, https://docs.microsoft.com/ko-kr/windows/wsl/wsl2-kernel 이 링크에서 커널 업데이트를 진행한다.
+위의 명령어를 실행할 경우 오류가 뜬다면, https://docs.microsoft.com/ko-kr/windows/wsl/wsl2-kernel 이 링크에서 커널 업데이트를 진행한 후 다시 해당 명령어를 실행해보자.
 
-### Windows Terminal 설정하기 파트에서 zsh의 테마를 agnoster로 할 경우 폰트 깨지는 문제
+### Windows Terminal 설정하기 [파트](https://github.com/wslhub/wsl-firststep/blob/master/firststep/winterm.md)에서 zsh의 테마를 agnoster로 할 경우 폰트 깨지는 문제
 
 - powerline 폰트를 https://medium.com/@slmeng/how-to-install-powerline-fonts-in-windows-b2eedecace58 해당 링크를 참고하여 설정한다.
   - 나의 경우 https://github.com/powerline/fonts 여기서 그냥 powerline 폰트를 다운받아서 압축을 풀고 폰트를 Windows의 fonts 폴더 안에 넣고 VSCode로 Windows Terminal의 fonts 설정을 했다.
@@ -26,16 +27,16 @@ $ sudo apt -y install openjdk-11-jdk
 ```
 위의 명령어를 wsl2 ubuntu shell에서 실행한다.
 
-자바 환경 변수 설정을 할 때 아래와 같이 하되, jvm 뒤에 폴더명을 /usr/lib/jvm으로 들어가서 확인 후 그 폴더명으로 해야 뒤에 Gradle 설정을 할 때 에러가 나지 않는다.
+자바 환경 변수 설정을 할 때 아래와 같이 하되, jvm 뒤에 폴더명을 실제 우분투 쉘에서 /usr/lib/jvm으로 접근하여 확인 후 확인한 폴더명으로 해야 뒤에 Gradle 설정을 할 때 JAVA_HOME을 찾을 수 없다는 에러가 발생하지 않는다.
 ```
-export JAVA_HOME=/usr/lib/jvm/openjdk-9-jdk
+export JAVA_HOME=/usr/lib/jvm/[실제 openjdk 폴더명]
 export PATH=$PATH:$JAVA_HOME/bin
 ```
 
 ### gradle 설정 [파트](https://github.com/wslhub/wsl-firststep/blob/master/devsetup/openjdk.md)
 
 - 위의 링크를 통해 gradle까지 깔았다면, source /etc/profile.d/gradle.sh 이 명령어를 ~/.zshrc에 맨 아랫 줄에 기입하고 이후 source ~/.zshrc를 실행한다.
-- source가 잘 처리되었다면 gradle -v로 확인한다.
+- source명령어가 잘 처리되었다면 gradle -v로 확인한다.
 
 node.js 설정은 [공식문서](https://docs.microsoft.com/ko-kr/windows/nodejs/setup-on-wsl2)를 참고한다.
 
@@ -88,14 +89,16 @@ echo 'alias idea="nohup /home/rebwon/.local/share/JetBrains/Toolbox/apps/IDEA-U/
 WSL2 디렉토리를 Windows 파일 관리자에서 편하게 접근하고 싶을 경우 해당 [링크](https://www.lesstif.com/software-architect/wsl-2-windows-subsystem-for-linux-2-89555812.html)를 참고한다.
 
 WSL2를 사용하면서 메모리 점유율이 너무 높을 경우 Windows의 사용자 디렉토리에 .wslconfig 파일을 만들어서 아래와 같이 옵션을 설정한다.
+
+나의 경우 윈도우가 아닌 WSL2를 메인 자바 개발 환경으로 사용할 것이기 때문에, 실제 내 놋북 리소스의 절반을 설정해주었다.
 ```
 [wsl2]
-memory=4GB
+memory=8GB
 swap=0
 localhostForwarding=true
 ```
 
-메모리 점유 이외에 WSL2를 사용하면서 캐시 메모리가 증가할 경우 아래의 명령어를 사용하자.
+메모리 점유 이외에 WSL2를 사용하면서 캐시 메모리가 증가하여 intellij나 다른 작업 시 너무 느려졌을 경우 아래의 명령어를 사용하자. (매번 이 명령어를 치기 귀찮다면, alias 설정을 해주면 된다.)
 ```
 sudo sh -c "/usr/bin/echo 3 > /proc/sys/vm/drop_caches"
 ```
