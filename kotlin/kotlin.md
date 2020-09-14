@@ -442,3 +442,128 @@ inline fun shortFunc(a: Int, out: (Int) -> Unit) {
     println("After calling out()")
 }
 ```
+
+함수의 실행 블록
+```kotlin
+fun main() {    // 최상위 레벨의 함수
+    fun secondFunc(a: Int) {    // 지역함수 선언
+    }
+    userFunc(4) // 사용자 함수 사용 - 선언부의 위치에 상관 없이 사용
+    secondFunc(2) // 지역 함수 사용 - 선언부가 먼저 나와야 사용 가능
+}
+
+fun userFunc(counts: Int) { // 사용자가 만든 최상위 레벨의 함수 선언 
+}
+```
+
+최상위 및 지역 함수의 사용 범위
+- 최상위 함수는 main() 함수 전, 후 어디든 선언하고 코드 내에서 호출 가능
+- 지역 함수는 먼저 선언되어야 그 함수를 호출할 수 있음
+
+범위 연산자로 조건식 간략하게 만들기
+- 아래와 같은 조건 분기문을 간단하게 만들 수 있다.
+```kotlin
+fun main() {
+
+    print("Enter the score: ")
+    val score = readLine()!!.toDouble()
+    var grade = 'F'
+
+    if(score >= 90.0) {
+        grade = 'A'
+    } else if(score >= 80 && score <= 89.9) {
+        grade = 'B'
+    } else if(score >= 70 && score <= 79.9) {
+        grade = 'C'
+    }
+
+    println("score: $score, grade: $grade")
+}
+```
+
+```kotlin
+fun main() {
+
+    print("Enter the score: ")
+    val score = readLine()!!.toDouble()
+    var grade = 'F'
+
+    if(score >= 90.0) {
+        grade = 'A'
+    } else if(score in 80.0..89.9) {
+        grade = 'B'
+    } else if(score in 70.0..79.9) {
+        grade = 'C'
+    }
+
+    println("score: $score, grade: $grade")
+}
+```
+
+위와 같은 if~else문을 코틀린에서 제공하는 when으로 변경 가능하다.
+```kotlin
+fun main() {
+
+    print("Enter the score: ")
+    val score = readLine()!!.toDouble()
+    var grade = 'F'
+
+    when {
+        score >= 90.0 -> {
+            grade = 'A'
+        }
+        score in 80.0..89.9 -> {
+            grade = 'B'
+        }
+        score in 70.0..79.9 -> {
+            grade = 'C'
+        }
+    }
+
+    println("score: $score, grade: $grade")
+}
+```
+
+when 문으로 다양한 조건 처리 
+```kotlin
+when (인자) {
+    인자에 일치하는 값 혹은 표현식 -> 수행할 문장
+    인자에 일치하는 범위 -> 수행할 문장
+    
+    else -> 문장
+}
+```
+
+- 일치되는 여러 조건
+```kotlin
+when (x) {
+    0,1 -> print("x == 0 or x == 1")
+    else -> print("기타")
+}
+```
+
+- 함수의 반환값 사용하기
+```kotlin
+when(x) {
+    parseInt(s) -> print("일치함")
+    else -> print("기타")
+}
+```
+
+- in 연산자와 범위 지정자 사용
+```kotlin
+when (x) {
+    in 1..10 -> print("x는 1 이상 10 이하")
+    !in 10..20 -> print("x는 10 이상 20 이하")
+    else -> print("x는 어떤 범위에도 없습니다.")
+}
+```
+
+- is 키워드 함께 사용하기
+```kotlin
+val str = "Hello"
+val result = when(str) {
+    is String -> "String"
+    else -> false
+}
+```
