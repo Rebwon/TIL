@@ -42,6 +42,16 @@ node.js 설정은 [공식문서](https://docs.microsoft.com/ko-kr/windows/nodejs
 
 ### XServer를 사용하여 Linux GUI를 통한 IDE 개발 환경 구축
 
+XServer를 사용하기 전 해야할 일.
+
+일부 프로그램에서 /etc/machine-id 파일이 필요하다. 그리고 dbus-uuidgen을 사용하여 uuid를 생성해주어야 한다.
+
+```
+$ sudo systemd-machine-id-setup
+$ sudo dbus-uuidgen -- ensure
+$ cat /etc/machine-id
+```
+
 XServer를 사용할 때, 한글 입력 셋팅은 다음 [링크](https://sigmafelix.wordpress.com/2020/08/17/wsl2%ec%97%90%ec%84%9c-%ed%95%9c%ea%b8%80-%ec%9e%85%eb%a0%a5-%ec%82%ac%ec%9a%a9%ed%95%98%ea%b8%b0/comment-page-1/#comment-84)를 참고한다.
 - 나의 경우 VcXsrv를 사용하여 xserver를 설치했다.
 
