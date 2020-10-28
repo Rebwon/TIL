@@ -140,3 +140,127 @@ class ExchageService {
 ### 정적 팩토리 메서드를 사용할 때 도메인 별 개념을 사용하여 이름을 짓자.
 
 from, of와 같은 명명 규칙도 좋지만, 실제 도메인의 개념인 place, create, write와 같은 더 한정적인 용어를 사용하자.
+
+### 3장 요약
+
+- 서비스 객체가 아닌 객체는 의존성이 아니라 값이나 값 객체를 받는다. 생성 시점에는 객체가 일관되게 행위를 하는 데 필요한 최소량의 데이터를 제공해야 한다. 생성자 인자가 어떤 식으로든 유효하지 않으면 생성자에서 이에 대한 예외를 일으켜야 한다.
+- 기본 타입 인자를 (값) 객체 안으로 감싸는 것은 도움이 된다. 이렇게 하면 이런 값에 대한 유효성 확인 규칙을 재사용하기 쉽다. 또한 그 값의 타입(클래스)에 도메인별 이름을 지정행 코드에 더 많은 의미를 부여하게 된다.
+- 서비스가 아닌 객체에서 생성자는 명명 가능한 생성자라고 하는 정적 팩토리 메서드여야 한다. 명명 가능한 생성자는 도메인별 이름을 코드에 도입하는 또 다른 기회를 제공한다.
+- 생성자는 해당 단위 테스트에서 지정한 대로 객체가 행위를 하는 데 필요한 것 이상으로 데이터를 제공하지 않는다.
+- 이런 규칙 대부분에 해당하지 않는 객체 타입이 DTO이다. 
+
+### 불변 객체
+
+도메인 개체(도메인 클래스 혹은 엔티티)를 제외한 나머지 모든 객체는 불변해야 한다.
+- 변경 불가능 객체의 변경자는 변경한 복사본을 반환해야 한다.
+- 변경 가능 객체의 변경자 메서드는 명령 메서드여야 한다.
+  - 엔티티에 속성에 새로운 값을 할당하는 메서드가 void타입일 경우 command method이며 void 타입에 값을 변경하는 어떠한 메서드는 모두 명령형 메서드의 상징이다.
+- 변경 불가능 객체의 변경자 메서드 이름은 서술형이어야 한다.
+  - void moveLeft()보다는 Position toMoveLeft()가 불변객체에서는 더 서술적이며 적절한 이름이다. 또한 좋은 이름은 최대한 세부적이지 않으며, 일반적인 이름 대신 추상화된 이름이어야 한다. 예) withXDecreaseBy -> toMoveLeft
+
+### 시스템 경계를 넘는 질의에는 추상화를 정의한다
+
+외부 인프라 서비스 혹은 메일 서비스와 같은 애플리케이션 외부에서 발생되어지는 서비스에 대한 질의 메서드를 작성할 경우 적절하게 추상화하자.
+
+아래의 코드는 적절한 추상화를 도입하는데 실패한 사례이다. 아래의 코드를 점진적으로 추상화를 도입하여 개선해보자.
+```
+class FixerApi {
+    public ExchageRate exchageRateFor(Currency from, Currency to) {
+        httpClient = new CurlHttpClient();
+        response = httpClient.get(....);
+        ...
+        rate = (float) decoded.rates[to.asString()];
+
+        return ExchangeRate.from(from, to, rate);
+    }
+}
+
+class CurrencyConverter {
+    private FixerApi fixerApi;
+
+    public CurrencyConverter(FixerApi fixerApi) {
+        this.fixerApi = fixerApi;
+    }
+
+    public Money convert(Money money, Currency to) {
+        exchangeRate = this.fixerApi.exchangeRateFor(money.currency(), to);
+        return money.convert(exchangeRate);
+    }
+}
+```
+
+HttpClient라는 추상화를 도입.
+```
+interface HttpClient {
+    public Response get(url);
+}
+
+class CurlHttpClient implements HttpClient {
+    // ..
+}
+
+class FixerApi {
+    private HttpClient httpClient;
+
+    public FixerApi(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
+
+    public ExchageRate exchageRateFor(Currency from, Currency to) {
+        response = this.httpClient.get(....);
+        ...
+        rate = (float) decoded.rates[to.asString()];
+
+        return ExchangeRate.from(from, to, rate);
+    }
+}
+```
+
+구체적인 구현 사항에 의존하지 않고 인터페이스에 의존하게 함으로써 구현 변경의 유연함을 더했다. 만약 다른 API로 전환할 때는 어떻게 될까? 다른 API에서 동일한 응답을 하지는 않을 수 있다. 저수준 구현 상세 내용을 제거하려면 추상적인 이름을 정의해야 한다.
+
+
+```
+interface ExchangeRates {
+    public ExchangeRate exchangeRateFor(Currency from, Currency to);
+}
+
+class FixerApi implements ExchangeRates {
+    private HttpClient httpClient;
+
+    public FixerApi(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
+
+    public ExchageRate exchageRateFor(Currency from, Currency to) {
+        response = this.httpClient.get(....);
+        ...
+        rate = (float) decoded.rates[to.asString()];
+
+        return ExchangeRate.from(from, to, rate);
+    }
+}
+
+class CurrencyConverter {
+    private ExchangeRates exchangeRates;
+
+    public CurrencyConverter(ExchangeRates exchangeRates) {
+        this.exchangeRates = exchangeRates;
+    }
+
+    public Money convert(Money money, Currency to) {
+        return money.convert(exchangeRateFor(money.currency(), to));
+    }
+
+    private ExchangeRate exchangeRateFor(Currency from, Currency to) {
+        return this.exchangeRates.exchangeRateFor(from, to);
+    }
+}
+```
+
+마지막 개선으로, CurrencyConverter에 비공개 exchangeRateFor()는 이제 ExchangeRates 서비스에 대한 Proxy일 뿐이므로 기존 호출 모두를 인라인화 한다. 기존 클래스에 대한 인터페이스를 정의해 성공적인 추상화를 수행했다.
+
+### 6장 요약
+
+- 질의 메서드는 정보를 가져오는 데 사용할 수 있는 메서드다. 질의 메서드는 반환 값이 하나여야 한다. null을 반환하는 것보다는 널 객체나 빈 목록 같은 대안을 찾는 것이 좋다. 예외를 대신 일으킬 수도 있다. 질의 메서드는 될 수 있는 한 객체 내부를 노출하지 않아야 한다. 
+- 요청할 모든 질문과 얻을 모든 답에 특정 메서드와 반환 값을 정의한다. 질문에 대한 답을 시스템 경계를 지나서만 얻을 수 있다면 이런 메서드에 추상화를 정의한다.
+- 질의를 사용해 정보를 가져오는 서비스를 테스트할 때는 실제 호출을 테스트하지 말고, 직접 작성한 가짜와 스텁으로 대체한다.
