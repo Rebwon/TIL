@@ -1,7 +1,7 @@
 ## 4주차 
 
 - 선택문
-  - if, else
+  - if, else, switch
 - 반복문
   - while
   - do while
@@ -9,7 +9,7 @@
 
 ### 선택문
 
-선택문은 if, else가 있다.
+선택문은 if, else, switch가 있다.
 
 아래는 가장 기본적인 if문이다.
 ```java
@@ -43,6 +43,18 @@ if(something) {
 ```java
 if(something)
     throw new IllegalArgumentException();
+```
+
+switch문은 기본형 타입으로 동작하며, Enum도 사용이 가능하며 Wrapper 클래스도 사용 가능하다.
+```java
+switch(something) {
+    // case에 특정한 값을 확인한다.
+    case: 
+        // 이곳에서 특정한 조건을 실행
+        break;
+    default:
+    // 모든 케이스에 맞지 않을 경우 기본 조건 실행
+}
 ```
 
 ### 반복문
