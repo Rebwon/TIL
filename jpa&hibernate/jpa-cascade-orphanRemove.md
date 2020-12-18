@@ -29,3 +29,7 @@ stackOverFlow에서 말하길 JPA가 컬렉션에서 삭제해야 하는지 여�
 이것을 객체 모델링 용어로 구성과 집계의 차이점? 이라고 한다는데, 구성에서는 자식 엔티티는 부모 엔티티 없이는 절대 존재할 수 없다라고 한다.
 
 내가 원하는 동작이 이루어지려면 벤더별 확장을 고려하거나, 명시적으로 자식 엔티티를 먼저 지우고 부모 컬렉션에서 제거해야 한다고 한다.
+
+## Hibernate TODO
+
+https://www.whiteship.me/cascade-delete-eb-a5-bc--ec-a0-81-ec-9a-a9-ed-95-98-eb-a0-a4-eb-a9-b4-session-deleteobject-eb-a5-bc--ec-82-ac-ec-9a-a9-ed-95-98-ec-84-b8-ec-9a-94/
